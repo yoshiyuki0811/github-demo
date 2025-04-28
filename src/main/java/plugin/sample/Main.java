@@ -87,8 +87,8 @@ if (count % 2 ==0){
       .filter(item -> !Objects.isNull(item) && item.getMaxStackSize() == 64 && item.getAmount() < 64)
       .forEach(item -> item.setAmount(64));
 
-  player.getInventory().setContents(itemStacks);//最初のコミット
-
+  player.getInventory().setContents(itemStacks);//最初のコミットだよ
+//PR作成の練習
 
 }
 
