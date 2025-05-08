@@ -1,10 +1,8 @@
 package plugin.sample;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -14,17 +12,15 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.World;
 import org.bukkit.entity.Firework;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedEnterEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.checkerframework.checker.units.qual.C;
 
 
 public final class Main extends JavaPlugin implements Listener {
@@ -35,6 +31,10 @@ public final class Main extends JavaPlugin implements Listener {
 
   public void onEnable() {
     Bukkit.getPluginManager().registerEvents(this, this);
+    getCommand("setLevel").setExecutor(new SetLevelCommand());
+
+
+
   }
 
 
@@ -44,6 +44,13 @@ public final class Main extends JavaPlugin implements Listener {
    *
    * @param e イベント
    */
+
+
+
+
+
+
+
   @EventHandler
   public void onPlayerToggleSneak(PlayerToggleSneakEvent e) throws IOException {
     // イベント発生時のプレイヤーやワールドなどの情報を変数に持つ。
@@ -54,7 +61,7 @@ public final class Main extends JavaPlugin implements Listener {
 if (count % 2 ==0){
   for (Color color :colorList) {
     // 花火オブジェクトをプレイヤーのロケーション地点に対して出現させる。
-    firework = world.spawn(player.getLocation(), Firework.clas Fireworks);
+    Firework firework = world.spawn(player.getLocation(), Firework.class);
 
     // 花火オブジェクトが持つメタ情報を取得。
     FireworkMeta fireworkMeta = firework.getFireworkMeta();
@@ -73,9 +80,7 @@ if (count % 2 ==0){
     // 追加した情報で再設定する。
     firework.setFireworkMeta(fireworkMeta);
   }
-  Path path = Path.of("firework.txt");
-  Files.writeString(path,"たーまやー！");
-  player.sendMessage(Files.readString(path));
+
 }
     count++ ;
   }
@@ -91,6 +96,12 @@ if (count % 2 ==0){
 //PR作成の練習
 
 }
-
+@EventHandler
+  public void onPlayerJoin(PlayerJoinEvent e) throws IOException {
+  Path path = Path.of("Join.txt");
+  Files.writeString(path,"おかえりなさい");
+  Player player = e.getPlayer();
+  player.sendMessage(Files.readString(path));
+}
 
 }
